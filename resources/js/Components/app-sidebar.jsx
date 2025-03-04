@@ -80,7 +80,7 @@ const data = {
             items: [
                 {
                     title: "Organizational Structure",
-                    url: "#",
+                    url: "/libraries/org-structure",
                 },
                 {
                     title: "Users",

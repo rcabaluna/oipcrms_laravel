@@ -28,8 +28,6 @@ import {
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { DataTableColumnHeader } from "@/components/table-functions/DataTableColumnHeader";
-import EditDialog from "@/Components/common/EditDialog";
-import EditAccountForm from "./EditAccountForm";
 
 export const columns = [
     {
@@ -57,40 +55,16 @@ export const columns = [
         enableHiding: false,
     },
     {
-        id: "name",
+        accessorKey: "group1name",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Full Name" />
-        ),
-        cell: ({ row }) => {
-            const { lastname, firstname, middlename, extension } = row.original;
-            return `${lastname}, ${firstname} ${middlename ? middlename.charAt(0) + "." : ""
-                } ${extension ?? ""}`.trim();
-        },
-    },
-    {
-        accessorKey: "username",
-        header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Username" />
+            <DataTableColumnHeader column={column} title="Office Name" />
         ),
     },
     {
-        accessorKey: "useraccess",
+        accessorKey: "group1code",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="User Access" />
+            <DataTableColumnHeader column={column} title="Office Code" />
         ),
-    },
-
-    {
-        accessorKey: "is_active",
-        header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Is Active" />
-        ),
-        cell: ({ row }) =>
-            row.original.is_active ? (
-                <span className="text-green-500 font-bold">Yes</span>
-            ) : (
-                <span className="text-gray-500">No</span>
-            ),
     },
     {
         id: "actions",
@@ -98,20 +72,15 @@ export const columns = [
             <DataTableColumnHeader column={column} title="Actions" />
         ),
         cell: ({ row }) => {
-            const account = row.original;
+            const users = row.original;
             const { delete: destroy } = useForm();
             const [open, setOpen] = useState(false);
             const [editOpen, setEditOpen] = useState(false);
 
             const ConfirmDelete = () => {
-                destroy(
-                    route("accounts.destroy", {
-                        account: account.useraccountid,
-                    }),
-                    {
-                        onSuccess: () => setOpen(false),
-                    }
-                );
+                destroy(route("users.destroy", { user: users.userid }), {
+                    onSuccess: () => setOpen(false),
+                });
             };
 
             return (
@@ -164,13 +133,7 @@ export const columns = [
                     </DropdownMenu>
 
                     {/* Edit Dialog outside DropdownMenu */}
-                    <EditDialog
-                        title="Account"
-                        open={editOpen}
-                        onOpenChange={setEditOpen}
-                    >
-                        <EditAccountForm account={account} />
-                    </EditDialog>
+
                 </>
             );
         },

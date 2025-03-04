@@ -9,10 +9,9 @@ class TblGroup3Model extends Model
     protected $table = 'tblgroup3';
 
     protected $fillable = [
-        'group1Code',
-        'group2Code',
-        'group3Code',
-        'group3Name',
-        'empNumber'
+        'group1code',
+        'group2code',
+        'group3code',
+        'group3name'
     ];
 }

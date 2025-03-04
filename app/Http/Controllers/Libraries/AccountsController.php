@@ -25,11 +25,13 @@ class AccountsController extends Controller
 
     public function store(Request $request)
     {
-
         $validated = $request->all();
         
         $validated['password'] = Hash::make($validated['password']);
-
+        
+        if (isset($validated['useraccess']) && is_array($validated['useraccess'])) {
+            $validated['useraccess'] = implode(';', $validated['useraccess']);
+        }
 
         AccountsModel::create($validated);
 

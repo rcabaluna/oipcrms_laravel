@@ -41,6 +41,9 @@ const AddDialogFormField = ({
                         <SelectValue placeholder={`Select ${label}`} />
                     </SelectTrigger>
                     <SelectContent>
+                        <SelectItem key={null} value={null}>
+                            {"-"}
+                        </SelectItem>
                         {options.map((option) => {
                             const xvalue =
                                 option.group3code ||
@@ -48,9 +51,9 @@ const AddDialogFormField = ({
                                 option.group1code ||
                                 option.value;
                             const optionLabel =
-                                option.group1name ||
-                                option.group2name ||
                                 option.group3name ||
+                                option.group2name ||
+                                option.group1name ||
                                 option.label;
 
                             return (

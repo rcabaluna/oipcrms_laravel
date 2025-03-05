@@ -8,7 +8,7 @@ import AddUserForm from "./Partials/AddUserForm";
 const Users = ({ users, group1, group2, group3 }) => {
     return (
         <>
-            <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+            <div className="flex flex-1 flex-col gap-4 pt-10 px-10">
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="text-xl font-bold">Manage Users</h1>
@@ -21,7 +21,7 @@ const Users = ({ users, group1, group2, group3 }) => {
                         <AddUserForm groups={{ group1, group2, group3 }} />
                     </AddDialog>
                 </div>
-                <div className="grid auto-rows-min gap-4 md:grid-cols-1">
+                <div className="grid auto-rows-min gap-4 pt-5 md:grid-cols-1">
                     <div className="table-container">
                         <DataTable columns={columns} data={users}></DataTable>
                     </div>

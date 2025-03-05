@@ -28,6 +28,8 @@ import {
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { DataTableColumnHeader } from "@/components/table-functions/DataTableColumnHeader";
+import EditDialog from "@/Components/common/EditDialog";
+import EditUnitForm from "./EditUnitForm";
 
 export const columns = [
     {
@@ -84,15 +86,20 @@ export const columns = [
             <DataTableColumnHeader column={column} title="Actions" />
         ),
         cell: ({ row }) => {
-            const users = row.original;
+            const unit = row.original;
             const { delete: destroy } = useForm();
             const [open, setOpen] = useState(false);
             const [editOpen, setEditOpen] = useState(false);
 
             const ConfirmDelete = () => {
-                destroy(route("users.destroy", { user: users.userid }), {
-                    onSuccess: () => setOpen(false),
-                });
+                destroy(
+                    route("org-structure.group3Delete", {
+                        unit: unit.id,
+                    }),
+                    {
+                        onSuccess: () => setOpen(false),
+                    }
+                );
             };
 
             return (
@@ -145,7 +152,13 @@ export const columns = [
                     </DropdownMenu>
 
                     {/* Edit Dialog outside DropdownMenu */}
-
+                    <EditDialog
+                        title="Unit"
+                        open={editOpen}
+                        onOpenChange={setEditOpen}
+                    >
+                        <EditUnitForm unit={unit} />
+                    </EditDialog>
                 </>
             );
         },

@@ -37,43 +37,26 @@ const data = {
             logo: GalleryVerticalEnd,
             plan: "Enterprise",
         },
-        {
-            name: "Acme Corp.",
-            logo: AudioWaveform,
-            plan: "Startup",
-        },
-        {
-            name: "Evil Corp.",
-            logo: Command,
-            plan: "Free",
-        },
     ],
     navMain: [
         {
-            title: "Documentation",
+            title: "OPCR",
             url: "#",
             icon: BookOpen,
+            isActive: true,
             items: [
                 {
-                    title: "Introduction",
-                    url: "#",
+                    title: "Targets",
+                    url: "/opcr/targets",
                 },
                 {
-                    title: "Get Started",
-                    url: "#",
-                },
-                {
-                    title: "Tutorials",
-                    url: "#",
-                },
-                {
-                    title: "Changelog",
-                    url: "#",
+                    title: "Accomplishments",
+                    url: "/opcr/accomplishments",
                 },
             ],
         },
         {
-            title: "Settings",
+            title: "Libraries",
             url: "#",
             icon: Settings2,
             isActive: true,

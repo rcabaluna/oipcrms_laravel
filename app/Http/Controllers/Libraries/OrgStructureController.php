@@ -59,4 +59,57 @@ class OrgStructureController extends Controller
         return redirect()->back()->with('success', 'User created successfully!');
     }
 
+    public function group1Update(Request $request, TblGroup1Model $office)
+    {
+        sleep(1);
+
+        $fields = $request->all();
+
+        $office->update($fields);
+
+        return redirect()->back()->with('success', 'User update successfully!');
+    }
+
+    public function group2Update(Request $request, TblGroup2Model $division)
+    {
+        sleep(1);
+
+        $fields = $request->all();
+
+        $division->update($fields);
+
+        return redirect()->back()->with('success', 'User update successfully!');
+    }
+
+    public function group3Update(Request $request, TblGroup3Model $unit)
+    {
+        sleep(1);
+
+        $fields = $request->all();
+
+        $unit->update($fields);
+
+        return redirect()->back()->with('success', 'User update successfully!');
+    }
+
+    public function group1Delete(TblGroup1Model $office)
+    {
+        $office->delete();
+
+        return redirect()->back()->with('success', 'User deleted successfully!');
+    }
+    public function group2Delete(TblGroup2Model $division)
+    {
+        $division->delete();
+
+        return redirect()->back()->with('success', 'User deleted successfully!');
+    }
+
+    public function group3Delete(TblGroup3Model $unit)
+    {
+        $unit->delete();
+
+        return redirect()->back()->with('success', 'User deleted successfully!');
+    }
+
 }

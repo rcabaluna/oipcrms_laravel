@@ -2,30 +2,52 @@ import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/Components/ui/dialog";
 import AddDialogFormField from "@/Components/common/AddDialogFormField";
 import { useForm } from "@inertiajs/react";
+import { useEffect, useState } from "react";
 
-const AddUnitForm = ({ group, onSuccess }) => {
-    const { data, setData, post, processing, errors } = useForm({
-        group1code: "",
-        group2code: "",
-        group3name: "",
-        group3code: "",
+const EditUnitForm = ({ unit, onSuccess }) => {
+    const [loading, setLoading] = useState(true);
+    const [group1, setGroup1] = useState([]);
+    const [group2, setGroup2] = useState([]);
+
+    const { data, setData, put, processing, errors } = useForm({
+        group1code: unit?.group1code || "",
+        group2code: unit?.group2code || "",
+        group3name: unit?.group3name || "",
+        group3code: unit?.group3code || "",
     });
+
+    useEffect(() => {
+        const fetchGroups = async () => {
+            try {
+                const [group1Data, group2Data] = await Promise.all([
+                    fetch("/api/group1").then((res) => res.json()),
+                    fetch("/api/group2").then((res) => res.json()),
+                ]);
+                setGroup1(group1Data);
+                setGroup2(group2Data);
+            } catch (error) {
+                console.error("Failed to fetch group data:", error);
+            } finally {
+                setLoading(false); // Set loading to false once data is fetched
+            }
+        };
+
+        fetchGroups();
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("org-structure.group3Store"), {
-            data,
+        put(route("org-structure.group3Update", unit), {
+            data: { ...data },
             preserveScroll: true,
-            onSuccess: () => {
-                if (onSuccess) {
-                    onSuccess();
-                }
-            },
-            onError: (errors) => {
-                console.error("Submission failed:", errors);
-            },
+            onSuccess: onSuccess ? onSuccess : undefined,
+            onError: (err) => console.error("Submission failed:", err),
         });
     };
+
+    if (loading) {
+        return <p className="text-center p-4">Fetching data...</p>; // Show loading state before form appears
+    }
 
     return (
         <form onSubmit={handleSubmit}>
@@ -36,7 +58,8 @@ const AddUnitForm = ({ group, onSuccess }) => {
                     type="select"
                     value={data.group1code}
                     onValueChange={(value) => setData("group1code", value)}
-                    options={group.office}
+                    options={group1}
+                    error={errors.group1code}
                 />
                 <AddDialogFormField
                     id="group2code"
@@ -44,7 +67,8 @@ const AddUnitForm = ({ group, onSuccess }) => {
                     type="select"
                     value={data.group2code}
                     onValueChange={(value) => setData("group2code", value)}
-                    options={group.division}
+                    options={group2}
+                    error={errors.group2code}
                 />
                 <AddDialogFormField
                     id="group3name"
@@ -55,7 +79,7 @@ const AddUnitForm = ({ group, onSuccess }) => {
                 />
                 <AddDialogFormField
                     id="group3code"
-                    label="Division Code"
+                    label="Unit Code"
                     type="text"
                     value={data.group3code}
                     onChange={(e) => setData("group3code", e.target.value)}
@@ -70,4 +94,4 @@ const AddUnitForm = ({ group, onSuccess }) => {
     );
 };
 
-export default AddUnitForm;
+export default EditUnitForm;
